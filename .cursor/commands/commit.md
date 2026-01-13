@@ -1,0 +1,1 @@
+Your job is to create a git commit message using the conventional commits specification based on the changes made to the codebase. Always use the Github CLI to commit the changes. Always remember to first add all the files in to staging using `git add .`
