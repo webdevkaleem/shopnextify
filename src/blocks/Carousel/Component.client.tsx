@@ -5,6 +5,7 @@ import { Media as MediaComponent } from '@/components/Media'
 import { Price } from '@/components/Price'
 import { Button } from '@/components/ui/button'
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { cartQueue } from '@/utilities/cartQueue'
 import { cn } from '@/utilities/cn'
 import { useCart } from '@payloadcms/plugin-ecommerce/client/react'
@@ -171,7 +172,16 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index }) => {
       ) : null}
 
       <div className="mt-4 flex flex-col gap-1">
-        <h6 className="font-medium uppercase">{product.title}</h6>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <h6 className="font-medium uppercase line-clamp-1">{product.title}</h6>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>{product.title}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
         {typeof product.priceInPKR === 'number' && (
           <Price
             amount={product.priceInPKR}
