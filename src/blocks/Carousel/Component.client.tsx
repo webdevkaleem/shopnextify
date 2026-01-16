@@ -4,7 +4,13 @@ import type { Media, Product } from '@/payload-types'
 import { Media as MediaComponent } from '@/components/Media'
 import { Price } from '@/components/Price'
 import { Button } from '@/components/ui/button'
-import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@/components/ui/carousel'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { cartQueue } from '@/utilities/cartQueue'
 import { cn } from '@/utilities/cn'
@@ -229,6 +235,11 @@ export const CarouselClient: React.FC<{ products: Product[] }> = ({ products }) 
             </CarouselItem>
           ))}
         </CarouselContent>
+
+        <div className="flex items-center justify-end py-8 gap-2">
+          <CarouselPrevious />
+          <CarouselNext />
+        </div>
       </Carousel>
     </motion.div>
   )
