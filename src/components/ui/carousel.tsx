@@ -1,11 +1,11 @@
 'use client'
 
-import * as React from 'react'
 import useEmblaCarousel, { type UseEmblaCarouselType } from 'embla-carousel-react'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
+import * as React from 'react'
 
-import { cn } from '@/utilities/cn'
 import { Button } from '@/components/ui/button'
+import { cn } from '@/utilities/cn'
 
 type CarouselApi = UseEmblaCarouselType[1]
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>
@@ -162,7 +162,7 @@ function CarouselItem({ className, ...props }: React.ComponentProps<'div'>) {
 
 function CarouselPrevious({
   className,
-  variant = 'outline',
+  variant = 'ghost',
   size = 'icon',
   ...props
 }: React.ComponentProps<typeof Button>) {
@@ -173,13 +173,7 @@ function CarouselPrevious({
       data-slot="carousel-previous"
       variant={variant}
       size={size}
-      className={cn(
-        'absolute size-8 rounded-full',
-        orientation === 'horizontal'
-          ? 'top-1/2 -left-12 -translate-y-1/2'
-          : '-top-12 left-1/2 -translate-x-1/2 rotate-90',
-        className,
-      )}
+      className={cn('size-8', orientation === 'horizontal' ? '' : 'rotate-90', className)}
       disabled={!canScrollPrev}
       onClick={scrollPrev}
       {...props}
@@ -192,7 +186,7 @@ function CarouselPrevious({
 
 function CarouselNext({
   className,
-  variant = 'outline',
+  variant = 'ghost',
   size = 'icon',
   ...props
 }: React.ComponentProps<typeof Button>) {
@@ -203,13 +197,7 @@ function CarouselNext({
       data-slot="carousel-next"
       variant={variant}
       size={size}
-      className={cn(
-        'absolute size-8 rounded-full',
-        orientation === 'horizontal'
-          ? 'top-1/2 -right-12 -translate-y-1/2'
-          : '-bottom-12 left-1/2 -translate-x-1/2 rotate-90',
-        className,
-      )}
+      className={cn('size-8', orientation === 'horizontal' ? '' : 'rotate-90', className)}
       disabled={!canScrollNext}
       onClick={scrollNext}
       {...props}
@@ -220,4 +208,4 @@ function CarouselNext({
   )
 }
 
-export { type CarouselApi, Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext }
+export { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi }
