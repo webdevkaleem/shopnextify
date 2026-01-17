@@ -60,7 +60,7 @@ export function HeaderClient({ header, store, userObj }: Props) {
       <nav className="flex items-center justify-between container">
         <div className="block flex-none md:hidden">
           <Suspense fallback={null}>
-            <MobileMenu menu={menu} />
+            <MobileMenu menu={menu} store={store} />
           </Suspense>
         </div>
         <div className="flex w-full items-center justify-between">
@@ -101,12 +101,17 @@ export function HeaderClient({ header, store, userObj }: Props) {
           </p>
           <div className="flex justify-end md:w-1/3 gap-6 items-center">
             <SearchMenu />
-            <Link
-              href={userObj ? '/account' : '/login'}
-              className={buttonVariants({ variant: 'fade', size: 'clear' })}
-            >
-              <User className="size-6 text-current" />
-            </Link>
+            <div className="hidden sm:flex items-center justify-center">
+              <Link
+                href={userObj ? '/account' : '/login'}
+                className={buttonVariants({
+                  variant: 'fade',
+                  size: 'clear',
+                })}
+              >
+                <User className="size-6 text-current" />
+              </Link>
+            </div>
             <Suspense fallback={<OpenCartButton />}>
               <Cart />
             </Suspense>

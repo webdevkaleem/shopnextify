@@ -117,6 +117,7 @@ export const Search: React.FC<Props> = ({ className, navigate = true }) => {
         placeholder="Start typing to search for products..."
         type="text"
         value={inputValue}
+        className="pr-10"
       />
       <div className="absolute right-0 top-0 mr-3 flex h-full items-center">
         <SearchIcon className="h-4" />
