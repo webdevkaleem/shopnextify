@@ -101,12 +101,17 @@ export function HeaderClient({ header, store, userObj }: Props) {
           </p>
           <div className="flex justify-end md:w-1/3 gap-6 items-center">
             <SearchMenu />
-            <Link
-              href={userObj ? '/account' : '/login'}
-              className={buttonVariants({ variant: 'fade', size: 'clear' })}
-            >
-              <User className="size-6 text-current" />
-            </Link>
+            <div className="hidden sm:flex items-center justify-center">
+              <Link
+                href={userObj ? '/account' : '/login'}
+                className={buttonVariants({
+                  variant: 'fade',
+                  size: 'clear',
+                })}
+              >
+                <User className="size-6 text-current" />
+              </Link>
+            </div>
             <Suspense fallback={<OpenCartButton />}>
               <Cart />
             </Suspense>
