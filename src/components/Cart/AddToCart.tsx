@@ -4,7 +4,7 @@ import { Button, ButtonProps } from '@/components/ui/button'
 import type { Product, Variant } from '@/payload-types'
 
 import { useCart } from '@payloadcms/plugin-ecommerce/client/react'
-import { MinusIcon, PlusIcon } from 'lucide-react'
+import { MinusIcon, Plus, PlusIcon } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
 import React, { useCallback, useMemo } from 'react'
 import { toast } from 'sonner'
@@ -165,7 +165,8 @@ export function AddToCart({ product, showQuantity = true, buttonVariant = 'outli
         onClick={addToCart}
         type="button"
       >
-        Add To Cart
+        <span className="hidden sm:block">Add To Cart</span>
+        <Plus className="sm:hidden size-6" />
       </Button>
     </div>
   )

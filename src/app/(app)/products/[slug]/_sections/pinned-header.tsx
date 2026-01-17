@@ -3,6 +3,7 @@
 import { AddToCart } from '@/components/Cart/AddToCart'
 import { Media } from '@/components/Media'
 import { Price } from '@/components/Price'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { Product } from '@/payload-types'
 import * as motion from 'motion/react-client'
 import { Suspense, useEffect, useState } from 'react'
@@ -50,8 +51,17 @@ export default function PinnedHeader({ product }: { product: Product }) {
             <Media fill imgClassName="object-cover" resource={product.gallery?.[0]?.image} />
           </div>
 
-          <div className="flex flex-col gap-2">
-            <h4 className="text-sm">{product.title}</h4>
+          <div className="flex flex-col gap-1 pr-4">
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <h4 className="text-sm line-clamp-1">{product.title}</h4>
+                </TooltipTrigger>
+                <TooltipContent side="bottom">
+                  <p>{product.title}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
             {product.priceInPKR != null && (
               <Price amount={product.priceInPKR} className="text-xs" />
             )}
