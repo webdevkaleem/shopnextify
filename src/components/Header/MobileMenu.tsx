@@ -101,7 +101,7 @@ export function MobileMenu({ menu, store }: Props) {
           <SheetDescription />
         </SheetHeader>
 
-        <div className="mobile-menu-scrollable flex-1 min-h-[120px] overflow-y-auto">
+        <div className="flex-1 overflow-y-auto">
           {menu?.length ? (
             <ul className="flex w-full flex-col">
               {menu.map((item) => (
