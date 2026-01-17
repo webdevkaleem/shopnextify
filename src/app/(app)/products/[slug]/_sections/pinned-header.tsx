@@ -55,7 +55,9 @@ export default function PinnedHeader({ product }: { product: Product }) {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <h4 className="text-sm line-clamp-1">{product.title}</h4>
+                  <h4 className="text-sm line-clamp-1" tabIndex={0}>
+                    {product.title}
+                  </h4>
                 </TooltipTrigger>
                 <TooltipContent side="bottom">
                   <p>{product.title}</p>
