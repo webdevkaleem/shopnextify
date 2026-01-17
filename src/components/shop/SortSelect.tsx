@@ -37,9 +37,9 @@ export function SortSelect() {
     sorting.find((item) => (item.slug || 'title') === currentSort)?.title || sorting[0].title
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2 w-full">
       <Select value={currentSort} onValueChange={handleValueChange}>
-        <SelectTrigger id="sort-select" className="w-[200px] m-0">
+        <SelectTrigger id="sort-select" className="w-full m-0">
           <SelectValue>{currentSortTitle}</SelectValue>
         </SelectTrigger>
         <SelectContent>
