@@ -43,17 +43,17 @@ export async function Footer() {
         <div className="flex flex-col text-sm gap-2">
           <h1 className="text-4xl font-light">{copyrightName}</h1>
           <p>
-            Release is a premium official Shopify theme designed by DigiFist.{' '}
+            I don&apos;t own this theme (
             <Link
-              href="https://themes.shopify.com/themes/release/presets/release?surface_detail=clothing&surface_inter_position=1&surface_intra_position=5&surface_type=industry"
+              href="https://github.com/webdevkaleem/shopnextify"
               target="_blank"
               rel="noopener noreferrer"
               className="underline"
             >
               Learn more
-            </Link>{' '}
-            {' -  '} I don&apos;t own this theme. This is a demo site for a Shopify theme. Certain
-            functionalities have been disabled to make it more suitable for a demo.
+            </Link>
+            ). This is a demo site for a Shopify theme. Certain functionalities have been disabled
+            to make it more suitable for a demo / display.
           </p>
         </div>
 
