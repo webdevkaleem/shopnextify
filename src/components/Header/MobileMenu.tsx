@@ -94,14 +94,14 @@ export function MobileMenu({ menu, store }: Props) {
         />
       </SheetTrigger>
 
-      <SheetContent side="left" className="p-4">
-        <SheetHeader className="px-0 pt-4 pb-0">
+      <SheetContent side="left" className="flex flex-col p-4 overflow-hidden">
+        <SheetHeader className="p-0 shrink-0">
           <SheetTitle>{store.storeName}</SheetTitle>
 
           <SheetDescription />
         </SheetHeader>
 
-        <div className="py-4">
+        <div className="mobile-menu-scrollable flex-1 min-h-[120px] overflow-y-auto">
           {menu?.length ? (
             <ul className="flex w-full flex-col">
               {menu.map((item) => (
@@ -110,11 +110,13 @@ export function MobileMenu({ menu, store }: Props) {
                 </li>
               ))}
             </ul>
-          ) : null}
+          ) : (
+            <div className="text-muted-foreground text-sm">No menu items</div>
+          )}
         </div>
 
         {user ? (
-          <div className="mt-4 flex flex-1 min-h-0 flex-col justify-end">
+          <div className="flex flex-col shrink-0">
             <h2 className="text-xl mb-4">Your account</h2>
             <hr className="my-2" />
             <ul className="flex flex-col gap-2">
@@ -135,7 +137,7 @@ export function MobileMenu({ menu, store }: Props) {
             </ul>
           </div>
         ) : (
-          <div className="flex flex-1 min-h-0 flex-col justify-end">
+          <div className="flex flex-col shrink-0">
             <div className="flex items-center flex-col gap-2 mt-4">
               <Button asChild className="w-full" variant="outline">
                 <Link href="/login">Log in</Link>
