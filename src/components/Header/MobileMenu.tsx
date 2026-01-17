@@ -1,6 +1,6 @@
 'use client'
 
-import type { Header } from '@/payload-types'
+import type { Header, Store } from '@/payload-types'
 
 import { CMSLink } from '@/components/Link'
 import { Button } from '@/components/ui/button'
@@ -21,11 +21,11 @@ import { useEffect, useState } from 'react'
 
 interface Props {
   menu: Header['navItems']
+  store: Store
 }
 
-export function MobileMenu({ menu }: Props) {
+export function MobileMenu({ menu, store }: Props) {
   const { user } = useAuth()
-
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const [isOpen, setIsOpen] = useState(false)
@@ -96,7 +96,7 @@ export function MobileMenu({ menu }: Props) {
 
       <SheetContent side="left" className="p-4">
         <SheetHeader className="px-0 pt-4 pb-0">
-          <SheetTitle>My Store</SheetTitle>
+          <SheetTitle>{store.storeName}</SheetTitle>
 
           <SheetDescription />
         </SheetHeader>
@@ -114,8 +114,8 @@ export function MobileMenu({ menu }: Props) {
         </div>
 
         {user ? (
-          <div className="mt-4">
-            <h2 className="text-xl mb-4">My account</h2>
+          <div className="mt-4 flex flex-1 min-h-0 flex-col justify-end">
+            <h2 className="text-xl mb-4">Your account</h2>
             <hr className="my-2" />
             <ul className="flex flex-col gap-2">
               <li>

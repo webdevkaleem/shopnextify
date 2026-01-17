@@ -60,7 +60,7 @@ export function HeaderClient({ header, store, userObj }: Props) {
       <nav className="flex items-center justify-between container">
         <div className="block flex-none md:hidden">
           <Suspense fallback={null}>
-            <MobileMenu menu={menu} />
+            <MobileMenu menu={menu} store={store} />
           </Suspense>
         </div>
         <div className="flex w-full items-center justify-between">
