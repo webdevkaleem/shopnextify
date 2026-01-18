@@ -18,7 +18,7 @@ export default async function JustArrived(): Promise<JSX.Element> {
 
   const categoryId = categories[0]?.id
 
-  // Fetch the page by slug to get the full Page object
+  // Fetch products for the Just Arrived section
   const { docs } = await payload.find({
     collection: 'products',
     overrideAccess: false,
