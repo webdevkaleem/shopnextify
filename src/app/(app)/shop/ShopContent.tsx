@@ -14,7 +14,7 @@ type Props = {
 }
 
 export async function ShopContent({ searchParams }: Props) {
-  const { q: searchValue, sort, category, priceFrom, priceTo, availability } = await searchParams
+  const { q: searchValue, sort, categories, priceFrom, priceTo, availability } = await searchParams
 
   const payload = await getPayload({ config: configPromise })
 
@@ -45,13 +45,31 @@ export async function ShopContent({ searchParams }: Props) {
     })
   }
 
-  // Category filter
-  if (category && typeof category === 'string') {
-    whereConditions.push({
-      categories: {
-        in: [category],
-      },
-    })
+  // Categories filter (AND logic - product must have ALL selected categories)
+  if (categories && typeof categories === 'string') {
+    // Handle comma-separated category IDs
+    const categoryArray = categories.split(',').filter(Boolean)
+    if (categoryArray.length > 0) {
+      // Use AND logic: product must contain ALL selected categories
+      // For hasMany relationship fields, use 'in' with single value for each category
+      if (categoryArray.length === 1) {
+        // Single category - use in with single value
+        whereConditions.push({
+          categories: {
+            in: [categoryArray[0]],
+          },
+        })
+      } else {
+        // Multiple categories - use AND with multiple 'in' checks (each checking for one category)
+        whereConditions.push({
+          and: categoryArray.map((categoryId) => ({
+            categories: {
+              in: [categoryId],
+            },
+          })),
+        })
+      }
+    }
   }
 
   // Price range filter
@@ -114,6 +132,13 @@ export async function ShopContent({ searchParams }: Props) {
     // If both are selected, don't filter by availability
   }
 
+  // Fetch all categories
+  const { docs: allCategories } = await payload.find({
+    collection: 'categories',
+    overrideAccess: false,
+    sort: 'title',
+  })
+
   const products = await payload.find({
     collection: 'products',
     draft: false,
@@ -134,7 +159,7 @@ export async function ShopContent({ searchParams }: Props) {
         <div className="flex flex-col-reverse md:flex-row gap-4 md:items-center justify-between w-full">
           <div className="flex gap-4 items-center w-full">
             <div className="hidden md:block">
-              <FilterSelect />
+              <FilterSelect categories={allCategories} />
             </div>
 
             <p className="text-sm">
@@ -143,7 +168,7 @@ export async function ShopContent({ searchParams }: Props) {
           </div>
           <div className="flex gap-4 items-center">
             <div className="block md:hidden">
-              <FilterSelect />
+              <FilterSelect categories={allCategories} />
             </div>
             <SortSelect />
           </div>
@@ -152,8 +177,8 @@ export async function ShopContent({ searchParams }: Props) {
 
       {products.docs?.length === 0 && (
         <div className="flex flex-1 justify-center items-center gap-4">
-          <Info className="size-8" />
-          <h2 className="text-2xl font-light">No products found.</h2>
+          <Info />
+          <p>No products found.</p>
         </div>
       )}
 

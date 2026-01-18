@@ -214,7 +214,7 @@ export const CarouselClient: React.FC<{ products: Product[] }> = ({ products }) 
   if (!products?.length)
     return (
       <div className="w-full h-[480px] flex items-center justify-center border-dashed rounded-md border p-16 gap-4">
-        <Info className="size-5" /> <span className="text-sm">No products found</span>
+        <Info className="size-5" /> <span>No products found</span>
       </div>
     )
 

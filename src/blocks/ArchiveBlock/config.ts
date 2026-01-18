@@ -64,7 +64,7 @@ export const Archive: Block = {
       },
       hasMany: true,
       label: 'Categories To Show',
-      relationTo: 'categories',
+      relationTo: 'pages',
     },
     {
       name: 'limit',

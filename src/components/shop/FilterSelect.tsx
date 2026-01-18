@@ -5,8 +5,9 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import { Input } from '@/components/ui/input'
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
+import type { Category } from '@/payload-types'
 import { createUrl } from '@/utilities/createUrl'
-import { ChevronUp } from 'lucide-react'
+import { ChevronUp, ListFilter } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
@@ -14,6 +15,7 @@ type FilterState = {
   priceFrom: string
   priceTo: string
   availability: string[]
+  categories: string[]
 }
 
 const AVAILABILITY_OPTIONS = [
@@ -21,12 +23,17 @@ const AVAILABILITY_OPTIONS = [
   { value: 'out_of_stock', label: 'OUT OF STOCK' },
 ]
 
-export function FilterSelect() {
+type FilterSelectProps = {
+  categories?: Category[]
+}
+
+export function FilterSelect({ categories = [] }: FilterSelectProps) {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const [isOpen, setIsOpen] = useState(false)
   const [isPriceRangeOpen, setIsPriceRangeOpen] = useState(true)
+  const [isCategoriesOpen, setIsCategoriesOpen] = useState(true)
   const [isAvailabilityOpen, setIsAvailabilityOpen] = useState(true)
 
   // Initialize filter state from URL params
@@ -35,6 +42,7 @@ export function FilterSelect() {
       priceFrom: searchParams.get('priceFrom') || '',
       priceTo: searchParams.get('priceTo') || '',
       availability: searchParams.get('availability')?.split(',').filter(Boolean) || [],
+      categories: searchParams.get('categories')?.split(',').filter(Boolean) || [],
     }
   }
 
@@ -65,11 +73,24 @@ export function FilterSelect() {
     })
   }
 
+  const handleCategoryToggle = (categoryId: string) => {
+    setFilterState((prev) => {
+      const isSelected = prev.categories.includes(categoryId)
+      return {
+        ...prev,
+        categories: isSelected
+          ? prev.categories.filter((c) => c !== categoryId)
+          : [...prev.categories, categoryId],
+      }
+    })
+  }
+
   const handleClearAll = () => {
     const clearedState = {
       priceFrom: '',
       priceTo: '',
       availability: [],
+      categories: [],
     }
 
     setFilterState(clearedState)
@@ -79,6 +100,7 @@ export function FilterSelect() {
     newParams.delete('priceFrom')
     newParams.delete('priceTo')
     newParams.delete('availability')
+    newParams.delete('categories')
 
     router.push(createUrl(pathname, newParams))
     setIsOpen(false)
@@ -107,30 +129,81 @@ export function FilterSelect() {
       newParams.delete('availability')
     }
 
+    // Categories filters
+    if (filterState.categories.length > 0) {
+      newParams.set('categories', filterState.categories.join(','))
+    } else {
+      newParams.delete('categories')
+    }
+
     router.push(createUrl(pathname, newParams))
     setIsOpen(false)
   }
 
   const hasActiveFilters =
-    filterState.priceFrom || filterState.priceTo || filterState.availability.length > 0
+    filterState.priceFrom ||
+    filterState.priceTo ||
+    filterState.availability.length > 0 ||
+    filterState.categories.length > 0
 
   const activeFilterCount =
-    (filterState.priceFrom || filterState.priceTo ? 1 : 0) + filterState.availability.length
+    (filterState.priceFrom || filterState.priceTo ? 1 : 0) +
+    filterState.availability.length +
+    filterState.categories.length
 
   return (
     <Sheet onOpenChange={setIsOpen} open={isOpen}>
       <SheetTrigger asChild>
         <Button variant="outline" size="default" className="rounded-md">
-          Filters{hasActiveFilters && ` (${activeFilterCount})`}
+          <div className="flex items-center justify-center gap-4">
+            <ListFilter />
+            <span className="hidden sm:block">
+              Filters{hasActiveFilters && ` (${activeFilterCount})`}
+            </span>
+          </div>
         </Button>
       </SheetTrigger>
-      <SheetContent className="flex flex-col w-full sm:max-w-xl h-full p-0">
+      <SheetContent className="flex flex-col w-full sm:max-w-xl h-full p-0" side="left">
         <SheetHeader className="border-b px-4 py-4 shrink-0">
           <SheetTitle>Filters</SheetTitle>
         </SheetHeader>
 
         {/* Scrollable Body */}
         <div className="flex flex-col gap-6 px-4 py-4 flex-1 overflow-y-auto min-h-0">
+          {/* Categories Filter */}
+          {categories.length > 0 && (
+            <Collapsible open={isCategoriesOpen} onOpenChange={setIsCategoriesOpen}>
+              <div className="flex flex-col gap-4">
+                <CollapsibleTrigger className="flex items-center justify-between w-full">
+                  <h3 className="text-sm font-medium">Categories</h3>
+                  <ChevronUp
+                    className={`size-4 transition-transform ${isCategoriesOpen ? '' : 'rotate-180'}`}
+                  />
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <div className="flex flex-col gap-3 pt-2">
+                    {categories.map((category) => {
+                      const isSelected = filterState.categories.includes(category.id)
+
+                      return (
+                        <label
+                          key={category.id}
+                          className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity"
+                        >
+                          <Checkbox
+                            checked={isSelected}
+                            onCheckedChange={() => handleCategoryToggle(category.id)}
+                          />
+                          <span className="text-sm">{category.title}</span>
+                        </label>
+                      )
+                    })}
+                  </div>
+                </CollapsibleContent>
+              </div>
+            </Collapsible>
+          )}
+
           {/* Price Range Filter */}
           <Collapsible open={isPriceRangeOpen} onOpenChange={setIsPriceRangeOpen}>
             <div className="flex flex-col gap-4">
