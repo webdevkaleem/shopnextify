@@ -1,6 +1,5 @@
 import { CarouselClient } from '@/blocks/Carousel/Component.client'
 import { CMSLink } from '@/components/Link'
-import { Product } from '@/payload-types'
 import config from '@payload-config'
 import { getPayload } from 'payload'
 import type { JSX } from 'react'
@@ -8,19 +7,29 @@ import type { JSX } from 'react'
 export default async function JustArrived(): Promise<JSX.Element> {
   const payload = await getPayload({ config })
 
-  // Fetch the page by slug to get the full Page object
-  const { docs } = await payload.find({
-    collection: 'pages',
+  const { docs: categories } = await payload.find({
+    collection: 'categories',
+    overrideAccess: false,
     where: {
       slug: { equals: 'just-arrived' },
+    },
+    limit: 1,
+  })
+
+  const categoryId = categories[0]?.id
+
+  // Fetch products for the Just Arrived section
+  const { docs } = await payload.find({
+    collection: 'products',
+    overrideAccess: false,
+    where: {
+      categories: { equals: categoryId },
     },
     limit: 10,
     depth: 2,
   })
 
-  const page = docs[0]
-
-  const products = (page?.featuredProducts || []) as Product[]
+  const products = docs
 
   return (
     <div className="container py-20 flex flex-col gap-8">
@@ -28,11 +37,7 @@ export default async function JustArrived(): Promise<JSX.Element> {
       <div className="flex items-center justify-between gap-8">
         <h2 className="text-4xl font-light">Just Arrived</h2>
         <div className="flex items-center gap-8">
-          <CMSLink
-            className="text-xs"
-            type="reference"
-            reference={{ relationTo: 'pages', value: page }}
-          >
+          <CMSLink className="text-xs" type="reference" url={`/shop?categories=${categoryId}`}>
             View All
           </CMSLink>
         </div>

@@ -17,7 +17,7 @@ slugField({ fieldToUse: 'title' })
 {
   name: 'category',
   type: 'relationship',
-  relationTo: 'categories',
+  relationTo: 'pages',
   filterOptions: { active: { equals: true } },
 }
 
@@ -106,7 +106,7 @@ import { HeadingFeature, LinkFeature } from '@payloadcms/richtext-lexical'
 {
   name: 'categories',
   type: 'relationship',
-  relationTo: 'categories',
+  relationTo: 'pages',
   hasMany: true,
   filterOptions: {
     active: { equals: true },

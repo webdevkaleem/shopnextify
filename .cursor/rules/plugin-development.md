@@ -263,19 +263,6 @@ export const myPlugin =
 
       // Plugin initialization
       payload.logger.info('Plugin initialized')
-
-      // Example: Seed data
-      const { totalDocs } = await payload.count({
-        collection: 'plugin-collection',
-        where: { id: { equals: 'seeded-by-plugin' } },
-      })
-
-      if (totalDocs === 0) {
-        await payload.create({
-          collection: 'plugin-collection',
-          data: { id: 'seeded-by-plugin' },
-        })
-      }
     }
 
     return config
