@@ -157,9 +157,11 @@ export function FilterSelect({ categories = [] }: FilterSelectProps) {
         <Button variant="outline" size="default" className="rounded-md">
           <div className="flex items-center justify-center gap-4">
             <ListFilter />
-            <span className="hidden sm:block">
-              Filters{hasActiveFilters && ` (${activeFilterCount})`}
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="hidden sm:block">Filters</span>
+            <span>{hasActiveFilters && ` (${activeFilterCount})`}</span>
+            </div>
+
           </div>
         </Button>
       </SheetTrigger>
