@@ -154,7 +154,7 @@ export function FilterSelect({ categories = [] }: FilterSelectProps) {
   return (
     <Sheet onOpenChange={setIsOpen} open={isOpen}>
       <SheetTrigger asChild>
-        <Button variant="outline" size="default" className="rounded-md">
+        <Button variant="outline" size="default" className="rounded-md" aria-label="Filters">
           <div className="flex items-center justify-center gap-2">
             <ListFilter />
             {hasActiveFilters && (
