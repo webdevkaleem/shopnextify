@@ -146,16 +146,16 @@ export async function ShopContent({ searchParams }: Props) {
     ...(sort ? { sort } : { sort: 'title' }),
     ...(whereConditions.length > 0
       ? {
-          where: {
-            and: whereConditions,
-          },
-        }
+        where: {
+          and: whereConditions,
+        },
+      }
       : {}),
   })
 
   return (
-    <div className="min-h-[50vh] w-full flex flex-col">
-      <div className="flex items-center mb-6">
+    <div className="min-h-[50vh] w-full flex flex-col gap-8">
+      <div className="flex items-center">
         <div className="flex flex-col-reverse md:flex-row gap-4 md:items-center justify-between w-full">
           <div className="flex gap-4 items-center w-full">
             <div className="hidden md:block">
