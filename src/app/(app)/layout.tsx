@@ -6,6 +6,7 @@ import { Header } from '@/components/Header'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { Providers } from '@/providers'
 import { InitTheme } from '@/providers/Theme/InitTheme'
+import { Analytics } from '@vercel/analytics/next'
 import { Poppins } from 'next/font/google'
 import './globals.css'
 
@@ -62,6 +63,8 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           <main>{children}</main>
           <Footer />
         </Providers>
+
+        <Analytics />
       </body>
     </html>
   )
